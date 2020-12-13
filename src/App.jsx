@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
+import useLocation from "./currentLocation";
 import apiKeys from "./apiKeys.js";
 import axios from "axios";
 import { HiOutlineSearch } from "react-icons/hi";
@@ -11,6 +12,7 @@ function App() {
   const [query, setQuery] = useState("");
   const [error, setError] = useState("");
   const [weather, setWeather] = useState({});
+  const location = useLocation();
 
   const search = () => {
     axios
@@ -30,6 +32,12 @@ function App() {
       });
   };
 
+  const keyEnter = (e) => {
+    if (e.key === "Enter") {
+      search();
+    }
+  };
+
   function checkTime(i) {
     if (i < 10) {
       i = "0" + i;
@@ -38,7 +46,7 @@ function App() {
   }
 
   useEffect(() => {
-    search("");
+    search("London");
   }, []);
 
   return (
@@ -54,7 +62,7 @@ function App() {
             placeholder="Search any city"
             onChange={(e) => setQuery(e.target.value)}
             value={query}
-            /* onKeyPress={search}*/
+            onKeyPress={keyEnter}
           />
           <div className="location__logo">
             <MdLocationSearching />
@@ -65,7 +73,7 @@ function App() {
             <div className="current__weather_image">
               <img
                 className="main__temp"
-                src={`http://openweathermap.org/img/wn/{weather.weather[0].icon}.png`}
+                src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}
               />
             </div>
             <div className="current_temperature">
@@ -90,6 +98,11 @@ function App() {
       </div>
       <div className="additional__data__container">
         <h2>additional container</h2>
+        <div>
+          {location.loaded
+            ? JSON.stringify(location)
+            : "Location data not availibale yet"}
+        </div>
       </div>
     </div>
   );
