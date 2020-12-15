@@ -4,13 +4,15 @@ import "./App.css";
 import useLocation from "./currentLocation";
 import apiKeys from "./apiKeys.js";
 import axios from "axios";
+import Clock from "react-live-clock";
+
 import { HiOutlineSearch } from "react-icons/hi";
 import { MdLocationSearching } from "react-icons/md";
+import dateBuilder from "./dateBuilder";
 
 function App() {
-  // const [apiAdress, setApiAdress] = useState("");
-  const [query, setQuery] = useState("");
-  const [error, setError] = useState("");
+  const [query, setQuery] = useState("london");
+  // const [error, setError] = useState("");
   const [weather, setWeather] = useState({});
   const location = useLocation();
 
@@ -26,9 +28,10 @@ function App() {
       })
       .catch(function (error) {
         console.log(error);
+        alert("Wrong city name.Try again.");
         setWeather("");
         setQuery("");
-        setError({ massage: "Not Found", query: query });
+        // setError({ massage: "Not Found", query: query });
       });
   };
 
@@ -38,15 +41,15 @@ function App() {
     }
   };
 
-  function checkTime(i) {
-    if (i < 10) {
-      i = "0" + i;
-    }
-    return i;
-  }
+  // function checkTime(i) {
+  //   if (i < 10) {
+  //     i = "0" + i;
+  //   }
+  //   return i;
+  // }
 
   useEffect(() => {
-    search("London");
+    search();
   }, []);
 
   return (
@@ -74,16 +77,23 @@ function App() {
               <img
                 className="main__temp"
                 src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}
+                alt="weather"
               />
             </div>
             <div className="current_temperature">
               <h1>{Math.round(weather.main.temp)}°c</h1>
-              <h5>Feels like {Math.round(weather.main.feels_like)}°c</h5>
+              <h4 className="data__text">{weather.weather[0].description}</h4>
+              <h4>Feels like {Math.round(weather.main.feels_like)}°c</h4>
             </div>
             <div className="date_day_time">
-              <h2>01.01.2020</h2>
-              <h2>Sunday</h2>
-              <h3>time 12:00</h3>
+              <h2>{dateBuilder(new Date())}</h2>
+              <h3>
+                <Clock
+                  format={"HH:mm:ss"}
+                  ticking={true}
+                  timezone={weather.timezone}
+                />
+              </h3>
             </div>
             <div className="current_city">
               <span>city img</span>
@@ -100,9 +110,10 @@ function App() {
         <h2>additional container</h2>
         <div>
           {location.loaded
-            ? JSON.stringify(location)
+            ? JSON.stringify(location.coordinates.lat)
             : "Location data not availibale yet"}
         </div>
+        <div></div>
       </div>
     </div>
   );
