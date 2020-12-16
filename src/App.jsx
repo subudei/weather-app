@@ -12,15 +12,12 @@ import dateBuilder from "./dateBuilder";
 
 function App() {
   const [query, setQuery] = useState("london");
-  // const [error, setError] = useState("");
   const [weather, setWeather] = useState({});
   const location = useLocation();
 
   const search = () => {
     axios
-      .get(
-        `${apiKeys.base}weather?q=${query}&units=metric&appid=${apiKeys.key}`
-      )
+      .get(`${apiKeys.base}/current.json?key=${apiKeys.key}&q=${query}`)
       .then((response) => {
         setWeather(response.data);
         setQuery("");
@@ -31,7 +28,6 @@ function App() {
         alert("Wrong city name.Try again.");
         setWeather("");
         setQuery("");
-        // setError({ massage: "Not Found", query: query });
       });
   };
 
@@ -71,34 +67,48 @@ function App() {
             <MdLocationSearching />
           </div>
         </div>
-        {typeof weather.main != "undefined" ? (
+        {typeof weather.current != "undefined" ? (
           <div>
             <div className="current__weather_image">
               <img
                 className="main__temp"
-                src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}
                 alt="weather"
+                src={weather.current.condition.icon}
               />
+              {/* <img
+                src={`a${weather.weather[0].icon}`}
+                className="main__temp"
+                alt="weather"
+              /> */}
+              {/* {`${weather.weather[0].icon}` === "04n" ? (
+                <img
+                  className="main__temp"
+                  src={logo}
+                  // src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}
+                  alt="weather"
+                />
+              ) : null} */}
             </div>
             <div className="current_temperature">
-              <h1>{Math.round(weather.main.temp)}°c</h1>
-              <h4 className="data__text">{weather.weather[0].description}</h4>
-              <h4>Feels like {Math.round(weather.main.feels_like)}°c</h4>
+              <h1>{Math.round(weather.current.temp_c)}°c</h1>
+              <h4 className="data__text">{weather.current.condition.text}</h4>
+              <h4>Feels like {Math.round(weather.current.feelslike_c)}°c</h4>
             </div>
             <div className="date_day_time">
               <h2>{dateBuilder(new Date())}</h2>
               <h3>
                 <Clock
-                  format={"HH:mm:ss"}
+                  format={"HH:mm"}
                   ticking={true}
-                  timezone={weather.timezone}
+                  timezone={weather.location.tz_id}
                 />
               </h3>
+              <h3> </h3>
             </div>
             <div className="current_city">
               <span>city img</span>
               <h2>
-                {weather.name},{weather.sys.country}
+                {weather.location.name},{weather.location.country}
               </h2>
             </div>
           </div>
@@ -107,6 +117,31 @@ function App() {
         )}
       </div>
       <div className="additional__data__container">
+        {typeof weather.main != "undefined" ? (
+          <div className="today__highlights">
+            <div className="today__box">
+              <h5>Humidity</h5>
+              {weather.main.humidity}
+            </div>
+            <div className="today__box">
+              <h5>Pressure</h5>
+              {weather.main.pressure}
+            </div>
+            <div className="today__box">
+              <h5>Wind</h5>
+              <p>speed{weather.wind.speed}</p>
+              <p>degree{weather.wind.deg}</p>
+            </div>
+            <div className="today__box">
+              <h5>UV index</h5>
+            </div>
+            <div className="today__box"></div>
+            <div className="today__box">{`a${weather.weather[0].icon}`}</div>
+          </div>
+        ) : (
+          ""
+        )}
+
         <h2>additional container</h2>
         <div>
           {location.loaded
