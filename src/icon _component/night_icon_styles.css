@@ -1,0 +1,13 @@
+.night_icon_div {
+  width: 80%;
+  height: 80%;
+  background: rgb(32, 0, 92);
+  border-radius: 1rem;
+  margin: auto;
+  display: grid;
+  place-items: center;
+}
+
+.night_icon {
+  width: 8rem;
+}

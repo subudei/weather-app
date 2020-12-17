@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
-import useLocation from "./currentLocation";
+// import useLocation from "./currentLocation";
 import apiKeys from "./apiKeys.js";
 import axios from "axios";
 import Clock from "react-live-clock";
@@ -9,11 +9,13 @@ import Clock from "react-live-clock";
 import { HiOutlineSearch } from "react-icons/hi";
 import { MdLocationSearching } from "react-icons/md";
 import dateBuilder from "./dateBuilder";
+import DayIcon from "./icon _component/day_icon";
+import NightIcon from "./icon _component/night_icon";
 
 function App() {
   const [query, setQuery] = useState("london");
   const [weather, setWeather] = useState({});
-  const location = useLocation();
+  // const location = useLocation();
 
   const search = () => {
     axios
@@ -70,24 +72,11 @@ function App() {
         {typeof weather.current != "undefined" ? (
           <div>
             <div className="current__weather_image">
-              <img
-                className="main__temp"
-                alt="weather"
-                src={weather.current.condition.icon}
-              />
-              {/* <img
-                src={`a${weather.weather[0].icon}`}
-                className="main__temp"
-                alt="weather"
-              /> */}
-              {/* {`${weather.weather[0].icon}` === "04n" ? (
-                <img
-                  className="main__temp"
-                  src={logo}
-                  // src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}
-                  alt="weather"
-                />
-              ) : null} */}
+              {weather.current.is_day === 1 ? (
+                <DayIcon code={weather.current.condition.code} />
+              ) : (
+                <NightIcon code={weather.current.condition.code} />
+              )}
             </div>
             <div className="current_temperature">
               <h1>{Math.round(weather.current.temp_c)}°c</h1>
@@ -117,37 +106,40 @@ function App() {
         )}
       </div>
       <div className="additional__data__container">
-        {typeof weather.main != "undefined" ? (
+        {typeof weather.current !== "undefined" ? (
           <div className="today__highlights">
             <div className="today__box">
               <h5>Humidity</h5>
-              {weather.main.humidity}
+              {weather.current.humidity}
             </div>
             <div className="today__box">
               <h5>Pressure</h5>
-              {weather.main.pressure}
+              {weather.current.pressure_mb}
             </div>
             <div className="today__box">
               <h5>Wind</h5>
-              <p>speed{weather.wind.speed}</p>
-              <p>degree{weather.wind.deg}</p>
+              <p>speed{weather.current.wind_kph}</p>
+              <p>degree{weather.current.wind_dir}</p>
             </div>
             <div className="today__box">
-              <h5>UV index</h5>
+              <h5>UV index{weather.current.uv}</h5>
             </div>
             <div className="today__box"></div>
-            <div className="today__box">{`a${weather.weather[0].icon}`}</div>
+            <div className="today__box">
+              <h5>visability</h5>
+              {weather.current.vis_km}
+            </div>
           </div>
         ) : (
           ""
         )}
 
         <h2>additional container</h2>
-        <div>
+        {/* <div>
           {location.loaded
             ? JSON.stringify(location.coordinates.lat)
             : "Location data not availibale yet"}
-        </div>
+        </div> */}
         <div></div>
       </div>
     </div>

@@ -1,0 +1,13 @@
+.day_icon_div {
+  width: 80%;
+  height: 80%;
+  background: rgb(28, 121, 241);
+  border-radius: 1rem;
+  margin: auto;
+  display: grid;
+  place-items: center;
+}
+
+.weather_icon {
+  width: 10rem;
+}
