@@ -1,8 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Heebo:wght@200&display=swap");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font: 16px;
+  color: rgb(68, 68, 68);
+  font-family: "Heebo", sans-serif;
 }
 .app__main_container {
   display: grid;
@@ -23,7 +27,7 @@
   /* background-color: rgba(0, 0, 0, 0.3); */
   display: flex;
   width: 100%;
-  height: 3rem;
+  height: 10vh;
   position: relative;
   top: 0.5rem;
   align-items: center;
@@ -57,27 +61,30 @@
   display: grid;
   place-items: center;
 }
-.main__temp {
+/* .main__temp {
   width: 50%;
   margin: auto;
-}
+} */
 
 .current_temperature {
   /* background-color: rgba(0, 0, 0, 0.2); */
   width: 100%;
-  height: 20vh;
+  height: 30vh;
   margin: auto;
   padding-left: 2rem;
 }
+.curr_temp_deg {
+  font-size: 4rem;
+}
 .date_day_time {
   width: 100%;
-  height: 20vh;
+  height: 15vh;
   padding-left: 2rem;
 }
 .current_city {
   /* background-color: rgba(0, 0, 0, 0.1); */
   width: 100%;
-  height: 20vh;
+  height: 15vh;
   padding-left: 2rem;
 }
 .data__text {

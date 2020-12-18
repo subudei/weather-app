@@ -79,7 +79,9 @@ function App() {
               )}
             </div>
             <div className="current_temperature">
-              <h1>{Math.round(weather.current.temp_c)}°c</h1>
+              <h1 className="curr_temp_deg">
+                {Math.round(weather.current.temp_c)}°c
+              </h1>
               <h4 className="data__text">{weather.current.condition.text}</h4>
               <h4>Feels like {Math.round(weather.current.feelslike_c)}°c</h4>
             </div>
