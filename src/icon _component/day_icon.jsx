@@ -95,6 +95,8 @@ function DayIcon({ code }) {
       case 1282:
         return rain_thunder;
         break;
+      default:
+        return <h3>"No preview available"</h3>;
     }
   };
   return (

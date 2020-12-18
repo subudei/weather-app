@@ -39,6 +39,10 @@ function App() {
     }
   };
 
+  const date = (n) => {
+    Math.floor(new Date(n).getTime() / 1000.0);
+  };
+
   // function checkTime(i) {
   //   if (i < 10) {
   //     i = "0" + i;
@@ -71,6 +75,10 @@ function App() {
         </div>
         {typeof weather.current != "undefined" ? (
           <div>
+            <div className="current_city">
+              <h2 className="data_text">{weather.location.name},</h2>
+              <h3 className="data_text">{weather.location.country} </h3>
+            </div>
             <div className="current__weather_image">
               {weather.current.is_day === 1 ? (
                 <DayIcon code={weather.current.condition.code} />
@@ -83,10 +91,12 @@ function App() {
                 {Math.round(weather.current.temp_c)}°c
               </h1>
               <h4 className="data__text">{weather.current.condition.text}</h4>
-              <h4>Feels like {Math.round(weather.current.feelslike_c)}°c</h4>
+              <h4 className="data__text">
+                Feels like {Math.round(weather.current.feelslike_c)}°c
+              </h4>
             </div>
             <div className="date_day_time">
-              <h2>{dateBuilder(new Date())}</h2>
+              <h4 className="data__text">{dateBuilder(new Date())}</h4>
               <h3>
                 <Clock
                   format={"HH:mm"}
@@ -94,13 +104,6 @@ function App() {
                   timezone={weather.location.tz_id}
                 />
               </h3>
-              <h3> </h3>
-            </div>
-            <div className="current_city">
-              <span>city img</span>
-              <h2>
-                {weather.location.name},{weather.location.country}
-              </h2>
             </div>
           </div>
         ) : (
