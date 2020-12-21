@@ -21,30 +21,30 @@ function DayIcon({ code }) {
     switch (code) {
       case 1000:
         return sunny;
-        break;
+
       case 1003:
         return partly_cloudy;
-        break;
+
       case 1006:
       case 1009:
         return cloudy;
-        break;
+
       case 1030:
       case 1135:
       case 1147:
         return mist;
-        break;
+
       case 1063:
       case 1150:
       case 1180:
         return patchy_rain;
-        break;
+
       case 1066:
       case 1069:
       case 1210:
       case 1216:
         return patchy_snow;
-        break;
+
       case 1079:
       case 1204:
       case 1207:
@@ -52,11 +52,11 @@ function DayIcon({ code }) {
       case 1237:
       case 1255:
         return light_snow;
-        break;
+
       case 1087:
       case 1273:
         return thundery_outbreaks;
-        break;
+
       case 1114:
       case 1117:
       case 1219:
@@ -66,35 +66,35 @@ function DayIcon({ code }) {
       case 1261:
       case 1264:
         return snow_flake;
-        break;
+
       case 1153:
       case 1168:
       case 1183:
       case 1198:
         return light_rain;
-        break;
+
       case 1171:
       case 1195:
       case 1252:
         return heavy_rain;
-        break;
+
       case 1186:
       case 1189:
       case 1240:
         return moderate_rain;
-        break;
+
       case 1192:
       case 1201:
       case 1243:
       case 1246:
       case 1249:
         return heavy_rain_at_times;
-        break;
+
       case 1276:
       case 1279:
       case 1282:
         return rain_thunder;
-        break;
+
       default:
         return <h3>"No preview available"</h3>;
     }

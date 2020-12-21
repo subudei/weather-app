@@ -9,6 +9,7 @@ import Clock from "react-live-clock";
 import { HiOutlineSearch } from "react-icons/hi";
 import { MdLocationSearching } from "react-icons/md";
 import dateBuilder from "./dateBuilder";
+import dayBuilder from "./dayBuilder";
 import DayIcon from "./icon _component/day_icon";
 import NightIcon from "./icon _component/night_icon";
 import humidity from "./assets/humidity.png";
@@ -24,10 +25,10 @@ function App() {
   const [query, setQuery] = useState("lisboa");
   const [weather, setWeather] = useState(""); //or useState({})
 
-  //http://api.weatherapi.com/v1/forecast.json?key=ce4f2077be34443fba3221205201612&q=lisbon&days3
+  //http://api.weatherapi.com/v1/forecast.json?key=ce4f2077be34443fba3221205201612&q=lisbon&days=3
   const search = () => {
     axios
-      .get(`${apiKeys.base}/forecast.json?key=${apiKeys.key}&q=${query}&days3`)
+      .get(`${apiKeys.base}/forecast.json?key=${apiKeys.key}&q=${query}&days=3`)
       .then((response) => {
         setWeather(response.data);
         setQuery("");
@@ -87,11 +88,7 @@ function App() {
               <h1 className="curr_temp_deg">
                 {Math.round(weather.current.temp_c)}°c
               </h1>
-              <h4>
-                min {Math.round(weather.forecast.forecastday[0].day.mintemp_c)}{" "}
-                / max{" "}
-                {Math.round(weather.forecast.forecastday[0].day.maxtemp_c)}
-              </h4>
+
               <h4 className="data__text">{weather.current.condition.text}</h4>
               <h4 className="data__text">
                 Feels like {Math.round(weather.current.feelslike_c)}°c
@@ -124,19 +121,85 @@ function App() {
             </div>
             <div className="forecast__container">
               <div className="forecast__box">
-                <h2>day</h2>
+                <div className="forecast__title">
+                  <h4>Today</h4>
+                  <div className="forecast__temp">
+                    <h5>
+                      {Math.round(
+                        weather.forecast.forecastday[0].day.maxtemp_c
+                      )}
+                      °c
+                    </h5>
+                    <h5 className="forecast__min__t">
+                      {Math.round(
+                        weather.forecast.forecastday[0].day.mintemp_c
+                      )}
+                      °c
+                    </h5>
+                  </div>
+                </div>
+                <div className="forecast__icon_div">
+                  <DayIcon
+                    className="forecast__img"
+                    code={weather.forecast.forecastday[0].day.condition.code}
+                  />
+                </div>
               </div>
               <div className="forecast__box">
-                <h2>day</h2>
+                <div className="forecast__title">
+                  <h4>
+                    {dayBuilder(new Date(weather.forecast.forecastday[1].date))}
+                  </h4>
+                  <div className="forecast__temp">
+                    <h5>
+                      {Math.round(
+                        weather.forecast.forecastday[1].day.maxtemp_c
+                      )}{" "}
+                      °c
+                    </h5>
+                    <h5 className="forecast__min__t">
+                      {Math.round(
+                        weather.forecast.forecastday[1].day.mintemp_c
+                      )}{" "}
+                      °c
+                    </h5>
+                  </div>
+                </div>
+
+                <div className="forecast__icon_div">
+                  <DayIcon
+                    className="forecast__img"
+                    code={weather.forecast.forecastday[1].day.condition.code}
+                  />
+                </div>
               </div>
               <div className="forecast__box">
-                <h2>day</h2>
-              </div>
-              <div className="forecast__box">
-                <h2>day</h2>
-              </div>
-              <div className="forecast__box">
-                <h2>day</h2>
+                <div className="forecast__title">
+                  <h4>
+                    {dayBuilder(new Date(weather.forecast.forecastday[2].date))}
+                  </h4>
+                  <div className="forecast__temp">
+                    <h5>
+                      {Math.round(
+                        weather.forecast.forecastday[2].day.maxtemp_c
+                      )}{" "}
+                      °c
+                    </h5>
+                    <h5 className="forecast__min__t">
+                      {Math.round(
+                        weather.forecast.forecastday[2].day.mintemp_c
+                      )}{" "}
+                      °c
+                    </h5>
+                  </div>
+                </div>
+
+                <div className="forecast__icon_div">
+                  <DayIcon
+                    className="forecast__img"
+                    code={weather.forecast.forecastday[2].day.condition.code}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -145,7 +208,7 @@ function App() {
               <h4 className="today__box__title">Humidity</h4>
               <div className="today__box__info">
                 <img className="today__box-img" src={humidity} alt="hum_img" />
-                <h3>{weather.current.humidity} %</h3>
+                <h2>{weather.current.humidity} %</h2>
               </div>
             </div>
             <div className="today__box">
@@ -156,7 +219,7 @@ function App() {
                   src={presure}
                   alt="presure_img"
                 />
-                <h3>{weather.current.pressure_mb} mb</h3>
+                <h2>{weather.current.pressure_mb} mb</h2>
               </div>
             </div>
             <div className="today__box">
@@ -201,7 +264,7 @@ function App() {
               <h4 className="today__box__title">UV Index</h4>
               <div className="today__box__info">
                 <img className="today__box-img" src={uv_index} alt="uv_img" />
-                <h3>{weather.current.uv}</h3>
+                <h2>{weather.current.uv}</h2>
               </div>
             </div>
 
@@ -213,7 +276,7 @@ function App() {
                   src={visibility}
                   alt="visibility_img"
                 />
-                <h3>{weather.current.vis_km.toFixed(1)} km</h3>
+                <h2>{weather.current.vis_km.toFixed(1)} km</h2>
               </div>
             </div>
           </div>

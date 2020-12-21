@@ -57,6 +57,7 @@
   display: grid;
   place-items: center;
 }
+
 .current_temperature {
   width: 80%;
   height: 35vh;
@@ -100,16 +101,43 @@
   width: 100%;
 }
 .forecast__container {
+  background-color: rgb(255, 255, 255);
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   width: 100%;
   height: 100%;
 }
 .forecast__box {
-  background-color: rgb(255, 255, 255);
   width: 85%;
   margin: 1rem auto;
-  border-radius: 1rem;
+  overflow: hidden;
+}
+.forecast__title {
+  display: flex;
+  place-items: center;
+  justify-content: space-between;
+  letter-spacing: 0.15rem;
+  padding: 0 2rem;
+  color: rgb(100, 100, 100);
+}
+.forecast__temp {
+  display: flex;
+}
+.forecast__min__t {
+  margin-left: 1.5rem;
+  color: rgb(200, 200, 200);
+}
+.forecast__icon_div {
+  background: rgb(255, 255, 255);
+  width: 90%;
+  height: 90%;
+  margin: auto;
+  display: grid;
+  place-items: center;
+}
+.forecast__img {
+  background-color: none;
+  height: 10rem;
 }
 .today__highlights {
   display: grid;
@@ -140,6 +168,6 @@
 }
 
 .today__box-img {
-  height: 2rem;
+  height: 2.5rem;
   margin-right: 2rem;
 }
