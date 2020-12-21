@@ -11,15 +11,23 @@ import { MdLocationSearching } from "react-icons/md";
 import dateBuilder from "./dateBuilder";
 import DayIcon from "./icon _component/day_icon";
 import NightIcon from "./icon _component/night_icon";
+import humidity from "./assets/humidity.png";
+import presure from "./assets/presure.png";
+import uv_index from "./assets/uv_index.png";
+import sunset from "./assets/sunset.png";
+import sunrise from "./assets/sunrise.png";
+import wind from "./assets/wind.png";
+import wind_direction from "./assets/wind_direction.png";
+import visibility from "./assets/visibility.png";
 
 function App() {
-  const [query, setQuery] = useState("london");
-  const [weather, setWeather] = useState({});
-  // const location = useLocation();
+  const [query, setQuery] = useState("lisboa");
+  const [weather, setWeather] = useState(""); //or useState({})
 
+  //http://api.weatherapi.com/v1/forecast.json?key=ce4f2077be34443fba3221205201612&q=lisbon&days3
   const search = () => {
     axios
-      .get(`${apiKeys.base}/current.json?key=${apiKeys.key}&q=${query}`)
+      .get(`${apiKeys.base}/forecast.json?key=${apiKeys.key}&q=${query}&days3`)
       .then((response) => {
         setWeather(response.data);
         setQuery("");
@@ -38,17 +46,6 @@ function App() {
       search();
     }
   };
-
-  const date = (n) => {
-    Math.floor(new Date(n).getTime() / 1000.0);
-  };
-
-  // function checkTime(i) {
-  //   if (i < 10) {
-  //     i = "0" + i;
-  //   }
-  //   return i;
-  // }
 
   useEffect(() => {
     search();
@@ -90,13 +87,20 @@ function App() {
               <h1 className="curr_temp_deg">
                 {Math.round(weather.current.temp_c)}°c
               </h1>
+              <h4>
+                min {Math.round(weather.forecast.forecastday[0].day.mintemp_c)}{" "}
+                / max{" "}
+                {Math.round(weather.forecast.forecastday[0].day.maxtemp_c)}
+              </h4>
               <h4 className="data__text">{weather.current.condition.text}</h4>
               <h4 className="data__text">
                 Feels like {Math.round(weather.current.feelslike_c)}°c
               </h4>
             </div>
             <div className="date_day_time">
-              <h4 className="data__text">{dateBuilder(new Date())}</h4>
+              <h4 className="data__text">
+                {dateBuilder(new Date(weather.location.localtime))}
+              </h4>
               <h3>
                 <Clock
                   format={"HH:mm"}
@@ -110,43 +114,119 @@ function App() {
           ""
         )}
       </div>
-      <div className="additional__data__container">
-        {typeof weather.current !== "undefined" ? (
-          <div className="today__highlights">
-            <div className="today__box">
-              <h5>Humidity</h5>
-              {weather.current.humidity}
+
+      {typeof weather.current !== "undefined" ? (
+        <div className="additional__data__container">
+          <div className="forecast__hours-days">
+            <div className="switch__box">
+              <span>day</span>
+              <span>week</span>
             </div>
-            <div className="today__box">
-              <h5>Pressure</h5>
-              {weather.current.pressure_mb}
-            </div>
-            <div className="today__box">
-              <h5>Wind</h5>
-              <p>speed{weather.current.wind_kph}</p>
-              <p>degree{weather.current.wind_dir}</p>
-            </div>
-            <div className="today__box">
-              <h5>UV index{weather.current.uv}</h5>
-            </div>
-            <div className="today__box"></div>
-            <div className="today__box">
-              <h5>visability</h5>
-              {weather.current.vis_km}
+            <div className="forecast__container">
+              <div className="forecast__box">
+                <h2>day</h2>
+              </div>
+              <div className="forecast__box">
+                <h2>day</h2>
+              </div>
+              <div className="forecast__box">
+                <h2>day</h2>
+              </div>
+              <div className="forecast__box">
+                <h2>day</h2>
+              </div>
+              <div className="forecast__box">
+                <h2>day</h2>
+              </div>
             </div>
           </div>
-        ) : (
-          ""
-        )}
+          <div className="today__highlights">
+            <div className="today__box">
+              <h4 className="today__box__title">Humidity</h4>
+              <div className="today__box__info">
+                <img className="today__box-img" src={humidity} alt="hum_img" />
+                <h3>{weather.current.humidity} %</h3>
+              </div>
+            </div>
+            <div className="today__box">
+              <h4 className="today__box__title">Pressure</h4>
+              <div className="today__box__info">
+                <img
+                  className="today__box-img"
+                  src={presure}
+                  alt="presure_img"
+                />
+                <h3>{weather.current.pressure_mb} mb</h3>
+              </div>
+            </div>
+            <div className="today__box">
+              <h4 className="today__box__title">wind</h4>
+              <div className="double__info__box">
+                <div className="today__box__info">
+                  <img
+                    className="today__box-img"
+                    src={wind_direction}
+                    alt="wind_spid_img"
+                  />
+                  <h4> {weather.current.wind_kph.toFixed(1)} km/h</h4>
+                </div>
+                <div className="today__box__info">
+                  <img className="today__box-img" src={wind} alt="wind_img" />
+                  <h4>{weather.current.wind_dir}</h4>
+                </div>
+              </div>
+            </div>
+            <div className="today__box">
+              <h4 className="today__box__title">sunrise / sunset</h4>
+              <div className="double__info__box">
+                <div className="today__box__info">
+                  <img
+                    className="today__box-img"
+                    src={sunrise}
+                    alt="sunrise_img"
+                  />
+                  <h4>{weather.forecast.forecastday[0].astro.sunrise}</h4>
+                </div>
+                <div className="today__box__info">
+                  <img
+                    className="today__box-img"
+                    src={sunset}
+                    alt="sunset_img"
+                  />
+                  <h4>{weather.forecast.forecastday[0].astro.sunset}</h4>
+                </div>
+              </div>
+            </div>
+            <div className="today__box">
+              <h4 className="today__box__title">UV Index</h4>
+              <div className="today__box__info">
+                <img className="today__box-img" src={uv_index} alt="uv_img" />
+                <h3>{weather.current.uv}</h3>
+              </div>
+            </div>
 
-        <h2>additional container</h2>
-        {/* <div>
+            <div className="today__box">
+              <h4 className="today__box__title">visibility</h4>
+              <div className="today__box__info">
+                <img
+                  className="today__box-img"
+                  src={visibility}
+                  alt="visibility_img"
+                />
+                <h3>{weather.current.vis_km.toFixed(1)} km</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+
+      {/* <div>
           {location.loaded
             ? JSON.stringify(location.coordinates.lat)
             : "Location data not availibale yet"}
         </div> */}
-        <div></div>
-      </div>
     </div>
   );
 }
