@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
-// import useLocation from "./currentLocation";
 import apiKeys from "./apiKeys.js";
 import axios from "axios";
 import Clock from "react-live-clock";
@@ -23,9 +22,8 @@ import visibility from "./assets/visibility.png";
 
 function App() {
   const [query, setQuery] = useState("lisboa");
-  const [weather, setWeather] = useState(""); //or useState({})
+  const [weather, setWeather] = useState({});
 
-  //http://api.weatherapi.com/v1/forecast.json?key=ce4f2077be34443fba3221205201612&q=lisbon&days=3
   const search = () => {
     axios
       .get(`${apiKeys.base}/forecast.json?key=${apiKeys.key}&q=${query}&days=3`)
@@ -116,8 +114,7 @@ function App() {
         <div className="additional__data__container">
           <div className="forecast__hours-days">
             <div className="switch__box">
-              <span>day</span>
-              <span>week</span>
+              <div className="toggle__forecast">3-Day Forecast</div>
             </div>
             <div className="forecast__container">
               <div className="forecast__box">
@@ -165,7 +162,6 @@ function App() {
                     </h5>
                   </div>
                 </div>
-
                 <div className="forecast__icon_div">
                   <DayIcon
                     className="forecast__img"
@@ -193,7 +189,6 @@ function App() {
                     </h5>
                   </div>
                 </div>
-
                 <div className="forecast__icon_div">
                   <DayIcon
                     className="forecast__img"
@@ -284,12 +279,6 @@ function App() {
       ) : (
         ""
       )}
-
-      {/* <div>
-          {location.loaded
-            ? JSON.stringify(location.coordinates.lat)
-            : "Location data not availibale yet"}
-        </div> */}
     </div>
   );
 }
