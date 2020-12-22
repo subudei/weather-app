@@ -99,11 +99,7 @@ function App() {
                 {dateBuilder(new Date(weather.location.localtime))}
               </h4>
               <h3>
-                <Moment
-                  format={"HH:mm"}
-                  ticking={true}
-                  timezone={weather.location.tz_id}
-                />
+                <Moment format="HH:mm" tz={weather.location.tz_id} />
               </h3>
             </div>
           </div>

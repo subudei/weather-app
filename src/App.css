@@ -163,6 +163,7 @@
   margin: auto;
   display: grid;
   grid-template-rows: 2fr 3fr;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 .today__box__title {
   text-transform: capitalize;
