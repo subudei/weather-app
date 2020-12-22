@@ -3,7 +3,9 @@ import "./App.css";
 
 import apiKeys from "./apiKeys.js";
 import axios from "axios";
-import Clock from "react-live-clock";
+// import Clock from "react-live-clock";
+import Moment from "react-moment";
+import "moment-timezone";
 
 import { HiOutlineSearch } from "react-icons/hi";
 import { MdLocationSearching } from "react-icons/md";
@@ -97,7 +99,7 @@ function App() {
                 {dateBuilder(new Date(weather.location.localtime))}
               </h4>
               <h3>
-                <Clock
+                <Moment
                   format={"HH:mm"}
                   ticking={true}
                   timezone={weather.location.tz_id}
